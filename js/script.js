@@ -4,7 +4,6 @@ let botoesConcluidos = document.querySelectorAll('[data-btnConcluido]');
 let botoesRemover = document.querySelectorAll('[data-btnRemover]');
 const listaDOM = document.querySelector('[data-lista]');
 
-
 class List {
    constructor(input) {
       this._texto = input;
@@ -56,11 +55,20 @@ class List {
    }
 }
 
-const atualizaTabela = new List();
-atualizaTabela.atualizaView();
+function verificaLista() {
+   if (!window.localStorage.getItem('lista')) {
+      return
+   } else {
+      const atualizaTabela = new List();
+      atualizaTabela.atualizaView();
+      return
+   }
+}
+
+verificaLista();
 
 
-btnAdiciona.addEventListener('click', () => {
+btnAdiciona.addEventListener('click', (event) => {
    const item = new List(input.value);
    if (input.value == "") {
 
@@ -91,12 +99,14 @@ for (const btnConcluido of botoesConcluidos) {
 
 for (const btnRemover of botoesRemover) {
    btnRemover.addEventListener('click', () => {
+      const atualizaTabela = new List();
+
       const divBotoes = btnRemover.parentElement;
       const textoElemento = divBotoes.previousElementSibling;
       const tituloItem = textoElemento.innerText;
 
       atualizaTabela.removeItemLista(tituloItem);
-      location. reload();
+      location.reload();
 
    })
 }
